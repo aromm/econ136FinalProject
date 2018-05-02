@@ -2,7 +2,7 @@ import sys
 from ib_insync import *
 import datetime
 
-def getOption(ib, ticker='SPY', exchange='SMART', currency='USD', optType='C', year=0, day=0, month=0, strike=0.0, date=0):
+def getOption(ib, ticker='SPY', exchange='SMART', currency='USD', optType='C', year=None, day=None, month=None, strike=0.0, date=None):
     """
     getOption returns a single contract based on the provided parameters or a LookupError if no contract exists.
     Either year (YYYY), day (D or DD), and month (M or MM) or date (YYMMDD) can be provided.
@@ -35,7 +35,7 @@ def getOption(ib, ticker='SPY', exchange='SMART', currency='USD', optType='C', y
         day = '0' + str(day)
 
     # use the date or year/month/day params to get expiry date
-    if date == 0:
+    if date == None:
         date = str(year)[-2:] + str(month) + str(day)
     else:
         date = str(date)
@@ -64,7 +64,7 @@ def getOption(ib, ticker='SPY', exchange='SMART', currency='USD', optType='C', y
 
     # if no contracts were returned, raise LookupError
     if len(contracts) == 0:
-        raise LookupError("No option exists with ticker:", ticker, "exchange:", exchange, "type:", optType, "date:", date, "strike:", strike)
+        raise LookupError("No option exists with ticker:", ticker, "exchange:", exchange, "type:", optType, "date (YYMMDD):", date, "strike:", strike)
 
     # return first contract summary!
     return contracts[0].summary
@@ -81,5 +81,5 @@ if __name__ == '__main__':
     ib.connect('127.0.0.1', 4001, clientId=421)
 
     # print option
-    print(getOption(ib, ticker='SPY', exchange='SMART', optType='P', date=190621, strike=215))
+    print(getOption(ib, ticker='SPY', exchange='SMART', optType='P', year=3, strike=215))
     
