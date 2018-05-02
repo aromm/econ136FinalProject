@@ -81,5 +81,5 @@ if __name__ == '__main__':
     ib.connect('127.0.0.1', 4001, clientId=421)
 
     # print option
-    print(getOption(ib, ticker='SPY', exchange='SMART', optType='P', year=3, strike=215))
+    print(getOption(ib, ticker='SPY', exchange='SMART', optType='P', date=190621, strike=215))
     
